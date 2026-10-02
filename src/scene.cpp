@@ -45,7 +45,7 @@ void Scene::loadFromJSON(const std::string& jsonName)
         const auto& name = item.key();
         const auto& p = item.value();
         Material newMaterial{};
-        // TODO: handle materials loading differently
+        // Load named materials before resolving object material references.
         newMaterial.indexOfRefraction = p.value("IOR", 1.5f);
         if (p["TYPE"] == "Diffuse")
         {

@@ -139,9 +139,8 @@ __host__ __device__ inline bool intersectGeometry(const Geom &g, const Triangle 
     hit.surfaceNormal = hit.frontFace ? hit.outwardNormal : -hit.outwardNormal;
     return true;
 }
-// Extended overloads retain the starter's intersection dispatch while adding
-// exact surface points, motion and entry/exit metadata for Part 2. The original
-// five-argument helpers in intersections.cu remain unchanged.
+// Intersection overloads return exact surface points and entry/exit metadata
+// while accounting for object motion.
 __host__ __device__ inline float boxIntersectionTest(Geom box, Ray ray,
     glm::vec3& point, glm::vec3& normal, bool& outside, ShadeableIntersection& hit)
 {

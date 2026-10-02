@@ -265,7 +265,7 @@ void InitImguiData(GuiDataContainer* guiData)
 }
 
 
-// LOOK: Un-Comment to check ImGui Usage
+// Draw rendering statistics in the preview window.
 void RenderImGui()
 {
     mouseOverImGuiWinow = io->WantCaptureMouse;
@@ -280,9 +280,9 @@ void RenderImGui()
     static float f = 0.0f;
     static int counter = 0;
 
-    ImGui::Begin("Path Tracer Analytics");                  // Create a window called "Hello, world!" and append into it.
+    ImGui::Begin("Path Tracer Analytics");                  // Display depth and frame-rate statistics.
     
-    // LOOK: Un-Comment to check the output window and usage
+    // Optional UI controls.
     //ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
     //ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
     //ImGui::Checkbox("Another Window", &show_another_window);
@@ -444,7 +444,6 @@ void saveImage()
     filename = ss.str();
     if (!outputPrefix.empty()) filename = outputPrefix;
 
-    // CHECKITOUT
     img.savePNG(filename);
     //img.saveHDR(filename);  // Save a Radiance HDR file
     Image hdr(width, height);

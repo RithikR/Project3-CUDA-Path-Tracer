@@ -114,7 +114,7 @@ __global__ void shadePath(
         if (intersection.t > 0.0f) // if the intersection exists...
         {
             // Set up the RNG
-            // The Part 2 sampler uses persistent pixel IDs and explicit dimensions
+            // The sampler uses persistent pixel IDs and explicit dimensions
             // so reordering and restarting cannot change a pixel's sample stream.
             Material material = materials[intersection.materialId];
             glm::vec3 materialColor = material.color;
@@ -144,8 +144,7 @@ __global__ void shadePath(
                 p.remainingBounces = 0;
             else
             {
-                // TODO: replace this! you should be able to start with basically a one-liner
-                // Diffuse scattering is extended with direct lighting, glass and roulette.
+                // Sample direct lighting, scatter by material, and apply roulette.
                 bool diffuse = m.hasReflective == 0 && !(m.hasRefractive > 0 && o.refraction);
                 if (o.directLighting && diffuse && lightCount > 0)
                 {
@@ -201,7 +200,7 @@ __global__ void shadePath(
             pathSegments[idx].color = glm::vec3(0.0f);
             p.remainingBounces = 0;
         }
-        // Save each terminated path before compaction for the original finalGather.
+        // Save each terminated path before compaction so finalGather retains its radiance.
         if (p.remainingBounces <= 0)
         {
             completedPaths[p.pixelIndex] = p;

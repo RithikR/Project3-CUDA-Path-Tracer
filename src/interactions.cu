@@ -54,15 +54,13 @@ __host__ __device__ void scatterRay(
     const Material &m,
     thrust::default_random_engine &rng)
 {
-    // TODO: implement this.
-    // A basic implementation of pure-diffuse shading will just call the
-    // calculateRandomDirectionInHemisphere defined above.
+    // Scatter diffusely in a cosine-weighted hemisphere and apply surface color.
     pathSegment.ray.origin = intersect + rayEpsilon * normal;
     pathSegment.ray.direction = calculateRandomDirectionInHemisphere(normal, rng);
     pathSegment.color *= m.color;
 }
 
-// Part 2 overload accepts explicit samples so Halton dimensions remain stable
+// Explicit samples keep Halton dimensions stable
 // after material sorting, stream compaction and checkpoint resume.
 __host__ __device__ bool scatterRay(PathSegment& path, glm::vec3 point,
     glm::vec3 normal, bool frontFace, const Material& m,
@@ -94,7 +92,7 @@ __host__ __device__ bool scatterRay(PathSegment& path, glm::vec3 point,
     return delta;
 }
 
-// Compatibility entry point used by the optical unit tests.
+// Forward surface scattering to the explicit-sample ray-scattering overload.
 __host__ __device__ bool scatterSurface(PathSegment& path, glm::vec3 point,
     glm::vec3 normal, bool frontFace, const Material& m,
     bool refraction, float u, float v)

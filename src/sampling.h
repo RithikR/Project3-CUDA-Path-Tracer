@@ -7,7 +7,7 @@
 // Stateless samples: reordering/compacting paths or resuming does not change them.
 __host__ __device__ inline unsigned int sampleHash(unsigned int x)
 {
-    return utilhash(x); // Reuse the supplied framework's integer hash.
+    return utilhash(x); // Hash the sample key without maintaining RNG state.
 }
 __host__ __device__ inline float unitFloat(unsigned int x)
 {
